@@ -45,6 +45,11 @@ class DecPipeline(ImagesPipeline):  # 继承ImagesPipeline这个类，实现这�
             raise DropItem("Item contains no images")
 
         for path in image_paths:
-            os.system("./bgRemover /home/ec2-user/data_big/full/ " + path[5:])
+            path = path.replace('full/', '')
+            os.system("./bgRemover /home/ec2-user/data_big/full/ " + path)
+            name = path.split('.')[0]
+            os.system(
+                "aws s3 mv /home/ec2-user/data_big/full/output/" + name + "_final.png" + " s3://decormatters-dev/product-images/ --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers full=emailaddress=accounts@decormatters.com")
+            os.system("rm /home/ec2-user/data_big/full/" + path)
 
         return item
