@@ -28,7 +28,7 @@ class DecItem(scrapy.Item):
     depth = scrapy.Field()
 
     imageUrls = scrapy.Field()
-    productImages = scrapy.Field()
+    awsImageUrls = scrapy.Field()
     thumbImageUrl = scrapy.Field()
 
     keywords = scrapy.Field()
