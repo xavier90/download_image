@@ -9,6 +9,7 @@ import urllib
 import scrapy
 from scrapy.exceptions import DropItem
 from scrapy.pipelines.images import ImagesPipeline
+import os
 
 
 # from ScrapyDec import settings
@@ -42,4 +43,8 @@ class DecPipeline(ImagesPipeline):  # 继承ImagesPipeline这个类，实现这�
         image_paths = [x['path'] for ok, x in results if ok]
         if not image_paths:
             raise DropItem("Item contains no images")
+
+        for path in image_paths:
+            os.system("./bgRemover /home/ec2-user/data_big/full/ " + path[5:])
+
         return item

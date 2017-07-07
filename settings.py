@@ -23,6 +23,7 @@ ITEM_PIPELINES = {
 # AWS_ACCESS_KEY_ID = "xxxxxx"
 # AWS_SECRET_ACCESS_KEY = "xxxxxx"
 #IMAGES_STORE = "s3://decormatters-dev/product-images/"
+
 IMAGES_STORE = "/home/ec2-user/data_big/"
 
 # IMAGES_STORE = '/Users/yaojianwang/Desktop/scrapyTest/img'
