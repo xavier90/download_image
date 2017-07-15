@@ -10,9 +10,10 @@ import scrapy
 from scrapy.exceptions import DropItem
 from scrapy.pipelines.images import ImagesPipeline
 import os
-import threading
+from threading import Thread
 import time
 import thread
+import logging
 
 # from ScrapyDec import settings
 
@@ -58,9 +59,9 @@ class DecPipeline(ImagesPipeline):  # 继承ImagesPipeline这个类，实现这�
         cnt_thread = 0
         for path in image_paths:
             path = path.replace('full/', '')
-            thread = threading.Thread(self.image_process_handler(path))
-            threads.append(thread)
+            thread = Thread(target=self.image_process_handler, args=(path,))
             thread.start()
+            threads.append(thread)
 
         run = True
 
