@@ -35,10 +35,7 @@ class DecPipeline(ImagesPipeline):  # 继承ImagesPipeline这个类，实现这�
 
     def image_process_handler(self, path):
         os.system("./bgRemover /home/ec2-user/script_test/full/ " + path)
-        name = path.split('.')[0]
-        os.system(
-            "aws s3 mv /home/ec2-user/script_test/full/output/" + name + "_final.png" + " s3://decormatters-dev/product-images/ --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers full=emailaddress=accounts@decormatters.com")
-        os.system("rm /home/ec2-user/script_test/full/" + path)
+
 
 
     def item_completed(self, results, item, info):
@@ -74,6 +71,12 @@ class DecPipeline(ImagesPipeline):  # 继承ImagesPipeline这个类，实现这�
                     break
 
             time.sleep(5)
+        for path in image_paths:
+
+            name = path.split('.')[0]
+            os.system(
+                "aws s3 mv /home/ec2-user/script_test/full/output/" + name + "_final.png" + " s3://decormatters-dev/product-images/ --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers full=emailaddress=accounts@decormatters.com")
+            os.system("rm /home/ec2-user/script_test/full/" + path)
 
 
         return item
