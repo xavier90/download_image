@@ -10,7 +10,9 @@ import scrapy
 from scrapy.exceptions import DropItem
 from scrapy.pipelines.images import ImagesPipeline
 import os
-
+import threading
+import time
+import thread
 
 # from ScrapyDec import settings
 
@@ -30,6 +32,14 @@ class DecPipeline(ImagesPipeline):  # 继承ImagesPipeline这个类，实现这�
         for image_url in item['imageUrls']:
             yield scrapy.Request(image_url)
 
+    def image_process_handler(self, path):
+        os.system("./bgRemover /home/ec2-user/data_big/full/ " + path)
+        name = path.split('.')[0]
+        os.system(
+            "aws s3 mv /home/ec2-user/data_big/full/output/" + name + "_final.png" + " s3://decormatters-dev/product-images/ --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers full=emailaddress=accounts@decormatters.com")
+        os.system("rm /home/ec2-user/data_big/full/" + path)
+
+
     def item_completed(self, results, item, info):
         '''
 
@@ -44,12 +54,25 @@ class DecPipeline(ImagesPipeline):  # 继承ImagesPipeline这个类，实现这�
         if not image_paths:
             raise DropItem("Item contains no images")
 
+        threads = []
+        cnt_thread = 0
         for path in image_paths:
             path = path.replace('full/', '')
-            os.system("./bgRemover /home/ec2-user/data_big/full/ " + path)
-            name = path.split('.')[0]
-            os.system(
-                "aws s3 mv /home/ec2-user/data_big/full/output/" + name + "_final.png" + " s3://decormatters-dev/product-images/ --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers full=emailaddress=accounts@decormatters.com")
-            os.system("rm /home/ec2-user/data_big/full/" + path)
+            thread = threading.Thread(self.image_process_handler(path))
+            threads.append(thread)
+            thread.start()
+
+        run = True
+
+        while run:
+            for t in threads:
+                if not t.isAlive():
+                    run = False
+                else:
+                    run = True
+                    break
+
+            time.sleep(5)
+
 
         return item
