@@ -72,7 +72,7 @@ class DecPipeline(ImagesPipeline):  # 继承ImagesPipeline这个类，实现这�
 
             time.sleep(5)
         for path in image_paths:
-
+            path = path.replace('full/', '')
             name = path.split('.')[0]
             os.system(
                 "aws s3 mv /home/ec2-user/script_test/full/output/" + name + "_final.png" + " s3://decormatters-dev/product-images/ --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers full=emailaddress=accounts@decormatters.com")
