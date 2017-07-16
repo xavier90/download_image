@@ -41,7 +41,8 @@ class DecSpider(scrapy.Spider):
             item['storeName'] = line['storeName']
             item['categoryName'] = line['categoryName']
             item['categoryId'] = line['categoryId']
-            item['subCategoryId'] = line['subCategoryId']
+            #if line['subCategoryId']:
+             #   item['subCategoryId'] = line['subCategoryId']
             item['storeId'] = line['storeId']
             item['productUrl'] = line['productUrl']
             item['salePrice'] = line['salePrice']
@@ -62,7 +63,7 @@ class DecSpider(scrapy.Spider):
 
             item['color'] = line['color']
             item['address'] = line['address']
-            item['sku'] = line['sku']
+            #item['sku'] = line['sku']
 
 
             yield item
