@@ -14,25 +14,25 @@ class DecSpider(scrapy.Spider):
 
     def parse(self, response):
 
-        f = open('result_landofnod_0629.json')
+        f = open('result_westelm.json')
         data = json.load(f)
 
-        cmd_bgRemove = "./bgRemover"
-        cmd_removeInputfile = "rm /home/ec2-user/data_big/full/*.jpg"
-        cmd_removeMaskfile = "rm /home/ec2-user/data_big/masks/*.jpg"
-        cmd_moveOutputfileToS3 = "aws s3 mv /home/ec2-user/data_big/output s3://decormatters-dev/product-images/ --recursive --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers full=emailaddress=accounts@decormatters.com"
-        
-        os.system(cmd_bgRemove)
+        # cmd_bgRemove = "./bgRemover"
+        # cmd_removeInputfile = "rm /home/ec2-user/data_big/full/*.jpg"
+        # cmd_removeMaskfile = "rm /home/ec2-user/data_big/masks/*.jpg"
+        # cmd_moveOutputfileToS3 = "aws s3 mv /home/ec2-user/data_big/output s3://decormatters-dev/product-images/ --recursive --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers full=emailaddress=accounts@decormatters.com"
+        #
+        # os.system(cmd_bgRemove)
 
         for line in data:
-            urls = line['imageUrls']
+            # urls = line['imageUrls']
 
-            awsImageUrls = []
-            for url in urls:
-                # use hash to generate image file name
-                hash_url_to_name = hashlib.sha1(url).hexdigest()
-                awsImageUrls.append("https://s3-us-west-1.amazonaws.com/decormatters-dev/product-images/" + hash_url_to_name + "_final.png") 
-                
+            # awsImageUrls = []
+            # for url in urls:
+            #     # use hash to generate image file name
+            #     hash_url_to_name = hashlib.sha1(url).hexdigest()
+            #     awsImageUrls.append("https://s3-us-west-1.amazonaws.com/decormatters-dev/product-images/" + hash_url_to_name + "_final.png")
+            #
             #os.system(cmd_bgRemove)
             #os.system(cmd_moveOutputfileToS3)
            # os.system(cmd_removeMaskfile)
@@ -55,7 +55,7 @@ class DecSpider(scrapy.Spider):
                 item['depth'] = line['depth']
 
             item['imageUrls'] = line['imageUrls']
-            item['awsImageUrls'] = awsImageUrls
+            item['awsImageUrls'] = line['awsImageUrls']
             item['thumbImageUrl'] = line['thumbImageUrl']
 
             item['keywords'] = line['keywords']
