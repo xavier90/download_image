@@ -33,10 +33,10 @@ class DecPipeline(ImagesPipeline):  # 继承ImagesPipeline这个类，实现这�
         for image_url in item['imageUrls']:
             yield scrapy.Request(image_url)
 
-    def image_process_handler(self, path):
-        # os.system("./bgRemover /home/ec2-user/script_test/full/ " + path)
+    # def image_process_handler(self, path):
+    #     os.system("./bgRemover /home/ec2-user/script_test/full/ " + path)
 
-        os.system("./Users/yaojianwang/Documents/DM/download_image/bgRemover /home/ec2-user/script_test/full/ " + path)
+        # os.system("./Users/yaojianwang/Documents/DM/download_image/bgRemover /home/ec2-user/script_test/full/ " + path)
 
 
     def item_completed(self, results, item, info):
@@ -53,31 +53,32 @@ class DecPipeline(ImagesPipeline):  # 继承ImagesPipeline这个类，实现这�
         if not image_paths:
             raise DropItem("Item contains no images")
 
-        threads = []
+        # threads = []
         cnt_thread = 0
-        for path in image_paths:
-            path = path.replace('full/', '')
-            thread = Thread(target=self.image_process_handler, args=(path,))
-            thread.start()
-            threads.append(thread)
-
-        run = True
-
-        while run:
-            for t in threads:
-                if not t.isAlive():
-                    run = False
-                else:
-                    run = True
-                    break
-
-            time.sleep(5)
         # for path in image_paths:
         #     path = path.replace('full/', '')
-            # name = path.split('.')[0]
-            # os.system(
-            #     "aws s3 mv /home/ec2-user/script_test/full/output/" + name + "_final.png" + " s3://decormatters-dev/product-images/ --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers full=emailaddress=accounts@decormatters.com")
-            # os.system("rm /home/ec2-user/script_test/full/" + path)
+        #     thread = Thread(target=self.image_process_handler, args=(path,))
+        #     thread.start()
+        #     threads.append(thread)
+        #
+
+        # run = True
+        #
+        # while run:
+        #     for t in threads:
+        #         if not t.isAlive():
+        #             run = False
+        #         else:
+        #             run = True
+        #             break
+        #
+        #     time.sleep(5)
+        # for path in image_paths:
+        #     path = path.replace('full/', '')
+        #     name = path.split('.')[0]
+        #     os.system(
+        #         "aws s3 mv /home/ec2-user/script_test/full/output/" + name + "_final.png" + " s3://decormatters-dev/product-images/ --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers full=emailaddress=accounts@decormatters.com")
+        #     os.system("rm /home/ec2-user/script_test/full/" + path)
 
 
         return item

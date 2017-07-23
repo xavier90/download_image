@@ -1,5 +1,9 @@
 from threading import Thread
 import time
+from multiprocessing import Process
+
+p = Process()
+p.is_alive()
 
 def timer(name, delay, repeat):
     print "Timer: " + name + " started"
@@ -27,6 +31,8 @@ def Main():
     #             break
 
     print "Main complete"
+
+
 
 
 
