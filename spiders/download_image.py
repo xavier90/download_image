@@ -14,7 +14,7 @@ class DecSpider(scrapy.Spider):
 
     def parse(self, response):
 
-        f = open('result_westelm.json')
+        f = open('result_yliving.json')
         data = json.load(f)
 
         # cmd_bgRemove = "./bgRemover"
@@ -45,7 +45,7 @@ class DecSpider(scrapy.Spider):
              #   item['subCategoryId'] = line['subCategoryId']
             item['storeId'] = line['storeId']
             item['productUrl'] = line['productUrl']
-            item['salePrice'] = line['salePrice']
+          #  item['salePrice'] = line['salePrice']
             item['title'] = line['title']
 
             item['description'] = line['description']

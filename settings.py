@@ -24,7 +24,7 @@ ITEM_PIPELINES = {
 # AWS_SECRET_ACCESS_KEY = "xxxxxx"
 #IMAGES_STORE = "s3://decormatters-dev/product-images/"
 
-IMAGES_STORE = "/home/dm/dm_projects/image_database"
+IMAGES_STORE = "/home/dm1/dm_projects/image_database"
 
 # IMAGES_STORE = '/Users/yaojianwang/Desktop/scrapyTest/img'
 DOWNLOAD_DELAY = 0.25
